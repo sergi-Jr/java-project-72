@@ -1,6 +1,11 @@
 package hexlet.code;
 
+import gg.jte.ContentType;
+import gg.jte.TemplateEngine;
+import gg.jte.resolve.ResourceCodeResolver;
+import hexlet.code.core.utils.NamedRoutes;
 import io.javalin.Javalin;
+import io.javalin.rendering.template.JavalinJte;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -15,16 +20,23 @@ public final class App {
 
     private static int getPort() {
         String port = System.getenv().getOrDefault("PORT", "7070");
-        return Integer.valueOf(port);
+        return Integer.parseInt(port);
     }
 
     public static Javalin getApp() {
         Javalin app = Javalin.create(cfg -> {
+            cfg.fileRenderer(new JavalinJte(createTemplateEngine()));
             cfg.bundledPlugins.enableDevLogging();
         });
 
-        app.get("/", ctx -> ctx.result("Hello"));
+        app.get(NamedRoutes.rootPath(), ctx -> ctx.render("main.jte"));
 
         return app;
+    }
+
+    private static TemplateEngine createTemplateEngine() {
+        ClassLoader loader = App.class.getClassLoader();
+        ResourceCodeResolver resolver = new ResourceCodeResolver("templates", loader);
+        return TemplateEngine.create(resolver, ContentType.Html);
     }
 }
