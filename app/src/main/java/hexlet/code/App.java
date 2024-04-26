@@ -3,6 +3,7 @@ package hexlet.code;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
+import hexlet.code.core.controllers.UrlController;
 import hexlet.code.core.utils.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
@@ -29,8 +30,12 @@ public final class App {
             cfg.bundledPlugins.enableDevLogging();
         });
 
-        app.get(NamedRoutes.rootPath(), ctx -> ctx.render("main.jte"));
+        app.get(NamedRoutes.rootPath(), UrlController::main);
 
+        app.get(NamedRoutes.urlsPath(), UrlController::index);
+        app.post(NamedRoutes.urlsPath(), UrlController::create);
+
+        app.get(NamedRoutes.urlPath("{id}"), UrlController::show);
         return app;
     }
 
