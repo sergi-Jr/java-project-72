@@ -1,4 +1,4 @@
-package hexlet.code.abstracts;
+package hexlet.code.abstracts.dal;
 
 import com.zaxxer.hikari.HikariDataSource;
 import hexlet.code.core.dal.DataSource;
@@ -21,7 +21,7 @@ public abstract class BaseRepository<T> {
         return dataSource.getConnection();
     }
 
-    public abstract void save(T entity);
+    public abstract boolean save(T entity);
 
     public abstract Optional<T> find(Long id);
 

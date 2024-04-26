@@ -2,6 +2,7 @@ package hexlet.code.core.dal;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.Getter;
 import org.h2.util.StringUtils;
 
 import java.sql.Connection;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 
 public final class DataSource {
     private static HikariConfig config = new HikariConfig();
+    @Getter
     private static HikariDataSource dataSource;
 
     static {
