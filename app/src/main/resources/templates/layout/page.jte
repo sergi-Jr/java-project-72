@@ -52,7 +52,7 @@
                     </svg>
                 </a></li>
         </ul>
-        <p class="text-center text-muted">created by Sergey Burashikov</p>
+        <p class="text-center text-muted">created by Sergey Burashnikov</p>
     </footer>
 </div>
 
