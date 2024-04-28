@@ -7,8 +7,6 @@ import hexlet.code.core.dto.UrlsPage;
 import hexlet.code.core.models.Url;
 import hexlet.code.core.utils.NamedRoutes;
 import io.javalin.http.Context;
-import io.javalin.validation.ValidationException;
-import org.h2.util.json.JSONItemType;
 
 import java.net.MalformedURLException;
 import java.net.URI;

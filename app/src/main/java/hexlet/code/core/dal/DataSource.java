@@ -16,7 +16,7 @@ public final class DataSource {
     static {
         String jdbcUrl = System.getenv("JDBC_DATABASE_URL");
         if (!StringUtils.isNullOrEmpty(jdbcUrl)) {
-            config.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
+            //config.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
             config.setJdbcUrl(jdbcUrl);
         } else {
             config.setJdbcUrl("jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;INIT=runscript from 'classpath:/init.sql'");
