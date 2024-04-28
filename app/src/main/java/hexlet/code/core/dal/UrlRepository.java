@@ -19,7 +19,7 @@ public final class UrlRepository extends BaseRepository {
 
     public static boolean save(Url entity) {
         String query = "Insert into urls (name, created_at) values (?, ?)";
-        try (Connection conn = getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement prep = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             prep.setString(1, entity.getName());
             prep.setTimestamp(2, entity.getCreatedAt());
@@ -42,7 +42,7 @@ public final class UrlRepository extends BaseRepository {
 
     public static Optional<Url> find(Long id) {
         String query = "Select * from urls where id = ?";
-        try (Connection conn = getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement prep = conn.prepareStatement(query)) {
             prep.setLong(1, id);
             ResultSet resultSet = prep.executeQuery();
@@ -62,7 +62,7 @@ public final class UrlRepository extends BaseRepository {
 
     public static List<Url> getEntities() {
         String query = "Select * from urls";
-        try (Connection conn = getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement prep = conn.prepareStatement(query)) {
             ResultSet resultSet = prep.executeQuery();
             ArrayList<Url> list = new ArrayList<>();
@@ -82,7 +82,7 @@ public final class UrlRepository extends BaseRepository {
 
     public static void update(Url entity) {
         String query = "Update urls set name = ? where id = ?";
-        try (Connection conn = getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement prep = conn.prepareStatement(query)) {
             prep.setString(1, entity.getName());
             prep.setLong(2, entity.getId());
@@ -94,7 +94,7 @@ public final class UrlRepository extends BaseRepository {
 
     public static void delete(Long id) {
         String query = "Delete from urls where id = ?";
-        try (Connection conn = getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement prep = conn.prepareStatement(query)) {
             prep.setLong(1, id);
             prep.executeUpdate();
