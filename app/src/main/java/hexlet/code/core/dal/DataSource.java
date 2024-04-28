@@ -9,11 +9,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public final class DataSource {
-    private static HikariConfig config = new HikariConfig();
     @Getter
     private static HikariDataSource dataSource;
 
     static {
+        HikariConfig config = new HikariConfig();
         String jdbcUrl = System.getenv("JDBC_DATABASE_URL");
         if (!StringUtils.isNullOrEmpty(jdbcUrl)) {
             config.setJdbcUrl(jdbcUrl);

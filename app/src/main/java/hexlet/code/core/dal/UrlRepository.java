@@ -15,14 +15,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-public final class UrlRepository extends BaseRepository<Url> {
+public final class UrlRepository extends BaseRepository {
 
-    public UrlRepository() {
-        super();
-    }
-
-    @Override
-    public boolean save(Url entity) {
+    public static boolean save(Url entity) {
         String query = "Insert into urls (name, created_at) values (?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement prep = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -45,8 +40,7 @@ public final class UrlRepository extends BaseRepository<Url> {
         return false;
     }
 
-    @Override
-    public Optional<Url> find(Long id) {
+    public static Optional<Url> find(Long id) {
         String query = "Select * from urls where id = ?";
         try (Connection conn = getConnection();
              PreparedStatement prep = conn.prepareStatement(query)) {
@@ -66,8 +60,7 @@ public final class UrlRepository extends BaseRepository<Url> {
         }
     }
 
-    @Override
-    public List<Url> getEntities() {
+    public static List<Url> getEntities() {
         String query = "Select * from urls";
         try (Connection conn = getConnection();
              PreparedStatement prep = conn.prepareStatement(query)) {
@@ -87,8 +80,7 @@ public final class UrlRepository extends BaseRepository<Url> {
         }
     }
 
-    @Override
-    public void update(Url entity) {
+    public static void update(Url entity) {
         String query = "Update urls set name = ? where id = ?";
         try (Connection conn = getConnection();
              PreparedStatement prep = conn.prepareStatement(query)) {
@@ -100,8 +92,7 @@ public final class UrlRepository extends BaseRepository<Url> {
         }
     }
 
-    @Override
-    public void delete(Long id) {
+    public static void delete(Long id) {
         String query = "Delete from urls where id = ?";
         try (Connection conn = getConnection();
              PreparedStatement prep = conn.prepareStatement(query)) {
