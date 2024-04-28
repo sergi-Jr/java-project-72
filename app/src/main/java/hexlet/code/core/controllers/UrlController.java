@@ -3,10 +3,12 @@ package hexlet.code.core.controllers;
 import hexlet.code.abstracts.dto.BasePage;
 import hexlet.code.core.dal.UrlRepository;
 import hexlet.code.core.dto.BuildUrlPage;
+import hexlet.code.core.dto.UrlPage;
 import hexlet.code.core.dto.UrlsPage;
 import hexlet.code.core.models.Url;
 import hexlet.code.core.utils.NamedRoutes;
 import io.javalin.http.Context;
+import io.javalin.http.NotFoundResponse;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -14,13 +16,13 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class UrlController {
-    private static UrlRepository repo = new UrlRepository();
 
-    public static void main(Context context) {
+    public static void start(Context context) {
         context.render("main.jte", model("page", new BuildUrlPage()));
     }
 
@@ -35,7 +37,7 @@ public class UrlController {
             Timestamp timestamp = new Timestamp(calendar.getTimeInMillis());
 
             Url entity = new Url(urlString, timestamp);
-            if (repo.save(entity)) {
+            if (UrlRepository.save(entity)) {
                 setFlashesInContext(context, "Страница успешно добавлена", "success");
                 context.redirect(NamedRoutes.urlsPath());
             } else {
@@ -72,12 +74,17 @@ public class UrlController {
     }
 
     public static void index(Context context) {
-        List<Url> urls = repo.getEntities();
+        List<Url> urls = UrlRepository.getEntities();
         UrlsPage page = new UrlsPage(urls);
         setFlashesInPage(context, page);
         context.render("urls/index.jte", model("page", page));
     }
 
     public static void show(Context context) {
+        Long id = context.pathParamAsClass("id", Long.class).get();
+        Url url = UrlRepository.find(id).orElseThrow(() ->
+                new NotFoundResponse("Странно... Не удалось найти такой url :("));
+        UrlPage page = new UrlPage(url.getName());
+        context.render("urls/show.jte", model("page", page));
     }
 }
