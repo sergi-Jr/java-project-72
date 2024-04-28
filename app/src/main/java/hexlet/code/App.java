@@ -30,7 +30,7 @@ public final class App {
             cfg.bundledPlugins.enableDevLogging();
         });
 
-        app.get(NamedRoutes.rootPath(), UrlController::main);
+        app.get(NamedRoutes.rootPath(), UrlController::start);
 
         app.get(NamedRoutes.urlsPath(), UrlController::index);
         app.post(NamedRoutes.urlsPath(), UrlController::create);
