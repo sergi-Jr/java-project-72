@@ -8,6 +8,7 @@ import hexlet.code.core.dto.UrlsPage;
 import hexlet.code.core.models.Url;
 import hexlet.code.core.utils.NamedRoutes;
 import io.javalin.http.Context;
+import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 
 import java.net.MalformedURLException;
@@ -28,7 +29,8 @@ public class UrlController {
 
     public static void create(Context context) {
         try {
-            String name = context.formParamAsClass("url", String.class).get();
+            String name = context.formParamAsClass("url", String.class)
+                    .get();
 
             URL url = URI.create(name).toURL();
             String urlString = buildUrlString(url);
@@ -39,7 +41,7 @@ public class UrlController {
             Url entity = new Url(urlString, timestamp);
             if (UrlRepository.save(entity)) {
                 setFlashesInContext(context, "Страница успешно добавлена", "success");
-                context.redirect(NamedRoutes.urlsPath());
+                context.redirect(NamedRoutes.urlsPath(), HttpStatus.FOUND);
             } else {
                 setFlashesInContext(context, "Страница уже существует", "danger");
                 BuildUrlPage page = new BuildUrlPage(name);
