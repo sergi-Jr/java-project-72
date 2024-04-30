@@ -34,8 +34,9 @@ class UrlControllerTest {
     void testCreateUrlSuccess() {
         JavalinTest.test(app, (server, client) -> {
             var requestBody = "url=https://123.org";
-            var response = client.post(NamedRoutes.urlsPath(), requestBody);
-            Assertions.assertEquals(200, response.code());
+            try (var response = client.post(NamedRoutes.urlsPath(), requestBody)) {
+                Assertions.assertEquals(200, response.code());
+            }
         });
     }
 
@@ -43,10 +44,10 @@ class UrlControllerTest {
     void testCreateUrlAlreadyExists() {
         UrlRepository.save(new Url("https://123.org", new Timestamp(Calendar.getInstance().getTimeInMillis())));
         JavalinTest.test(app, (server, client) -> {
-
             var requestBody = "url=https://123.org";
-            var response = client.post(NamedRoutes.urlsPath(), requestBody);
-            Assertions.assertEquals(200, response.code());
+            try (var response = client.post(NamedRoutes.urlsPath(), requestBody)) {
+                Assertions.assertEquals(200, response.code());
+            }
         });
     }
 
