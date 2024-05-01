@@ -13,8 +13,13 @@ public final class Url {
     private String name;
     private Timestamp createdAt;
 
-    public Url(String nameValue, Timestamp createdAtValue) {
+    public Url(String nameValue) {
         name = nameValue;
-        createdAt = createdAtValue;
+        createdAt = new Timestamp(System.currentTimeMillis());
+    }
+
+    public Url(String nameValue, Timestamp created) {
+        name = nameValue;
+        createdAt = created;
     }
 }
