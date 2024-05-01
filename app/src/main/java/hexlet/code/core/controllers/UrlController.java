@@ -85,6 +85,7 @@ public class UrlController {
                 new NotFoundResponse("Could not find URL :("));
         List<UrlCheck> checks = UrlCheckRepository.getChecks(id);
         UrlPage page = new UrlPage(id, url.getName(), checks);
+        ViewUtil.setFlashesInPage(context, page);
         context.render("urls/show.jte", model("page", page));
     }
 
