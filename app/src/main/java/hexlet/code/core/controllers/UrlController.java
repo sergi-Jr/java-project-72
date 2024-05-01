@@ -43,7 +43,6 @@ public class UrlController {
             String name = context.formParamAsClass("url", String.class).get();
             URL url = URI.create(name).toURL();
             String urlString = buildUrlString(url);
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Url entity = new Url(urlString);
 
             if (UrlRepository.save(entity)) {
