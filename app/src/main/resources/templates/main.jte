@@ -15,7 +15,7 @@ content = @`
                 <small class="form-text text-muted">Only http[s]://example.com[:port] is allowed</small>
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Inspect</button>
+                <button type="submit" class="btn btn-primary" name="inspect-btn">Inspect</button>
             </div>
         </div>
     </form>
