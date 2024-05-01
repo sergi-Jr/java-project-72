@@ -27,12 +27,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class UrlController {
+
+    private UrlController() {}
 
     public static void start(Context context) {
         context.render("main.jte", model("page", new BuildUrlPage()));
