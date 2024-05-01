@@ -149,7 +149,6 @@ class UrlControllerTest {
                 .setResponseCode(500)
                 .setBody(Files.readString(Paths.get("src/test/resources/test.html").toAbsolutePath().normalize()));
         mockWebServer.enqueue(response);
-        mockWebServer.start();
         JavalinTest.test(app, ((server, client) -> {
             var entity = new Url(mockWebServer.url("/").toString(), new Timestamp(System.currentTimeMillis()));
             UrlRepository.save(entity);
