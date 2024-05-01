@@ -7,4 +7,6 @@ import lombok.Getter;
 @Getter
 public class BaseRepository {
     protected static HikariDataSource dataSource = DataSource.getDataSource();
+
+    private BaseRepository() {}
 }
