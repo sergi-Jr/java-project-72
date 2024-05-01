@@ -17,16 +17,16 @@
 </head>
 <body>
 @if(page != null && page.getFlash() != null)
-    <div class="alert alert-${page.getFlashType()}" role="alert">
-        ${page.getFlash()}
+    <div class="rounded-0 m-0 alert alert-dismissible fade show alert-${page.getFlashType()}" role="alert">
+        <p class="m-0">${page.getFlash()}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
 <header class="d-flex justify-content-center py-3">
     <ul class="nav nav-pills">
         <li class="nav-item"><a href="${NamedRoutes.rootPath()}" class="nav-link active" aria-current="page">Home</a>
         </li>
-        <li class="nav-item"><a href="#" class="nav-link">Inspect</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="${NamedRoutes.urlsPath()}" class="nav-link">Sites</a></li>
     </ul>
 </header>
 <div class="mx-auto p-4 py-md-5">

@@ -4,18 +4,18 @@ import hexlet.code.core.utils.NamedRoutes;
 import hexlet.code.abstracts.dto.BasePage;
 public final class JtepageGenerated {
 	public static final String JTE_NAME = "layout/page.jte";
-	public static final int[] JTE_LINE_INFO = {0,0,1,2,4,4,4,18,18,18,19,19,19,19,20,20,20,22,22,25,25,25,25,25,25,25,25,25,32,32,32,60,60,60,4,5,5,5,5};
+	public static final int[] JTE_LINE_INFO = {0,0,1,2,4,4,4,18,18,18,19,19,19,19,20,20,20,23,23,26,26,26,26,26,26,26,26,26,33,33,33,61,61,61,4,5,5,5,5};
 	public static void render(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, Content content, BasePage page) {
 		jteOutput.writeContent("\n<!doctype html>\n<html lang=\"ru\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <title>Pages Analyzer</title>\n    <link rel=\"icon\" type=\"image/x-icon\" href=\"https://icons8.com/icon/d310wlrpO1kD/inspect-code\">\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\"\n          integrity=\"sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65\" crossorigin=\"anonymous\">\n</head>\n<body>\n");
 		if (page != null && page.getFlash() != null) {
-			jteOutput.writeContent("\n    <div class=\"alert alert-");
+			jteOutput.writeContent("\n    <div class=\"rounded-0 m-0 alert alert-dismissible fade show alert-");
 			jteOutput.setContext("div", "class");
 			jteOutput.writeUserContent(page.getFlashType());
 			jteOutput.setContext("div", null);
-			jteOutput.writeContent("\" role=\"alert\">\n        ");
-			jteOutput.setContext("div", null);
+			jteOutput.writeContent("\" role=\"alert\">\n        <p class=\"m-0\">");
+			jteOutput.setContext("p", null);
 			jteOutput.writeUserContent(page.getFlash());
-			jteOutput.writeContent("\n    </div>\n");
+			jteOutput.writeContent("</p>\n        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>\n    </div>\n");
 		}
 		jteOutput.writeContent("\n<header class=\"d-flex justify-content-center py-3\">\n    <ul class=\"nav nav-pills\">\n        <li class=\"nav-item\"><a");
 		var __jte_html_attribute_0 = NamedRoutes.rootPath();

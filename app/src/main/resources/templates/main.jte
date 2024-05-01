@@ -15,7 +15,9 @@ content = @`
                     <div class="row">
                         <div class="col">
                             <div class="form-floating">
-                                <input id="url-input" autofocus="" type="url" required="" name="url" aria-label="url" class="form-control w-100" placeholder="URL" autocomplete="off" value="${page.getName()}" pattern="https?://(www\.)?\S+\.\S+">
+                                <input id="url-input" autofocus="" type="url" required="" name="url" aria-label="url"
+                                       class="form-control w-100" placeholder="URL" autocomplete="off"
+                                       value="${page.getName()}" pattern="https?://(www\.)?\S+\.\S+">
                                 <label for="url-input">URL</label>
                             </div>
                         </div>
