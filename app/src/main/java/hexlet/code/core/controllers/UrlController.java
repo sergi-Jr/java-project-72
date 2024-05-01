@@ -23,7 +23,6 @@ import org.jsoup.nodes.Element;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -96,19 +95,16 @@ public class UrlController {
             HttpResponse<String> response = Unirest.get(url).asString();
             String body = response.getBody();
             Document doc = Jsoup.parse(body);
+
             int code = response.getStatus();
             String title = doc.title();
             Element firstSelectedH1 = doc.select("h1").first();
             String firstLevelHeader = firstSelectedH1 == null ? null : firstSelectedH1.text();
             Element firstDescription = doc.select("meta[name=description]").first();
             String description = firstDescription == null ? null : firstDescription.attr("content");
-            UrlCheck check = new UrlCheck(
-                    code,
-                    title,
-                    firstLevelHeader,
-                    description
-            );
+            UrlCheck check = new UrlCheck(code, title, firstLevelHeader, description);
             check.setUrlId(id);
+
             UrlCheckRepository.save(check);
             ViewUtil.setFlashesInContext(context, "Проверка успешно добавлена", "success");
             context.redirect(NamedRoutes.urlPath(id), HttpStatus.FOUND);
