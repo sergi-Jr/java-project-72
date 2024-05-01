@@ -16,6 +16,9 @@ import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 import org.javatuples.Pair;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -41,7 +44,7 @@ public class UrlController {
             URL url = URI.create(name).toURL();
             String urlString = buildUrlString(url);
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            Url entity = new Url(urlString, timestamp);
+            Url entity = new Url(urlString);
 
             if (UrlRepository.save(entity)) {
                 ViewUtil.setFlashesInContext(context, "Страница успешно добавлена", "success");
@@ -93,12 +96,18 @@ public class UrlController {
         try {
             HttpResponse<String> response = Unirest.get(url).asString();
             String body = response.getBody();
+            Document doc = Jsoup.parse(body);
+            int code = response.getStatus();
+            String title = doc.title();
+            Element firstSelectedH1 = doc.select("h1").first();
+            String firstLevelHeader = firstSelectedH1 == null ? null : firstSelectedH1.text();
+            Element firstDescription = doc.select("meta[name=description]").first();
+            String description = firstDescription == null ? null : firstDescription.attr("content");
             UrlCheck check = new UrlCheck(
-                    response.getStatus(),
-                    getTextByRegex(regexTagsBetween("title"), body),
-                    getTextByRegex(regexTagsBetween("h1"), body),
-                    getTextByRegex("(?<=\"description\" content=\").+?(?=\">)", body),
-                    new Timestamp(System.currentTimeMillis())
+                    code,
+                    title,
+                    firstLevelHeader,
+                    description
             );
             check.setUrlId(id);
             UrlCheckRepository.save(check);
@@ -110,15 +119,5 @@ public class UrlController {
             ViewUtil.setFlashes(page, context, "Проверка не удалась", "danger");
             context.render("urls/show.jte", model("page", page));
         }
-    }
-
-    private static String regexTagsBetween(String tag) {
-        return String.format("(?<=<%s>).+?(?=</%s>)", tag, tag);
-    }
-
-    private static String getTextByRegex(String regex, String input) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        return matcher.find() ? matcher.group() : null;
     }
 }
