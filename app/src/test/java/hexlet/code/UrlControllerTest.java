@@ -7,11 +7,7 @@ import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,6 +20,7 @@ class UrlControllerTest {
     final String correctTestUrl1 = "https://metanit.com";
     final String correctTestUrl2 = "https://123.org";
     final String correctTestUrl3 = "https://google.com";
+    final String correctTestUrl4 = "https://github.com";
     final String invalidUrl = "ht:/hexlet.test";
     static String fixturePath = "src/test/resources/test.html";
     static String testBody;
@@ -94,12 +91,12 @@ class UrlControllerTest {
     @Test
     void testShowUrl() {
         JavalinTest.test(app, (server, client) -> {
-            var entity = new Url(correctTestUrl1);
+            var entity = new Url(correctTestUrl4);
             UrlRepository.save(entity);
             var response = client.get(NamedRoutes.urlPath(entity.getId()));
             var body = response.body().string();
             Assertions.assertEquals(200, response.code());
-            Assertions.assertTrue(body.contains(correctTestUrl1));
+            Assertions.assertTrue(body.contains(correctTestUrl4));
 
             var response1 = client.get(NamedRoutes.urlPath("42"));
             Assertions.assertEquals(404, response1.code());

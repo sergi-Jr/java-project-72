@@ -16,6 +16,8 @@ public final class DataSource {
         String jdbcUrl = System.getenv().getOrDefault("JDBC_DATABASE_URL",
                 "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;INIT=runscript from 'classpath:/init.sql'");
         config.setJdbcUrl(jdbcUrl);
+        config.setUsername(System.getenv("USERNAME"));
+        config.setPassword(System.getenv("PASSWORD"));
 
         dataSource = new HikariDataSource(config);
     }
