@@ -66,7 +66,7 @@ public class UrlCheckRepository extends BaseRepository {
     }
 
     public static Optional<UrlCheck> findLast(Long urlId) {
-        String query = "Select top 1 * from url_checks where url_id = ? order by created_at";
+        String query = "Select * from url_checks where url_id = ? order by created_at limit 1";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement prep = conn.prepareStatement(query)) {
             prep.setLong(1, urlId);
