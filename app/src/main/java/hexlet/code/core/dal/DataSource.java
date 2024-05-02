@@ -3,7 +3,6 @@ package hexlet.code.core.dal;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
-import org.h2.util.StringUtils;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,12 +13,9 @@ public final class DataSource {
 
     static {
         HikariConfig config = new HikariConfig();
-        String jdbcUrl = System.getenv("JDBC_DATABASE_URL");
-        if (!StringUtils.isNullOrEmpty(jdbcUrl)) {
-            config.setJdbcUrl(jdbcUrl);
-        } else {
-            config.setJdbcUrl("jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;INIT=runscript from 'classpath:/init.sql'");
-        }
+        String jdbcUrl = System.getenv().getOrDefault("JDBC_DATABASE_URL",
+                "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;INIT=runscript from 'classpath:/init.sql'");
+        config.setJdbcUrl(jdbcUrl);
 
         dataSource = new HikariDataSource(config);
     }
