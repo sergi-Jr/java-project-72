@@ -3,7 +3,9 @@ package hexlet.code;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
+import hexlet.code.abstracts.dal.BaseRepository;
 import hexlet.code.core.controllers.UrlController;
+import hexlet.code.core.dal.DataSource;
 import hexlet.code.core.utils.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
@@ -29,6 +31,8 @@ public final class App {
             cfg.fileRenderer(new JavalinJte(createTemplateEngine()));
             cfg.bundledPlugins.enableDevLogging();
         });
+
+        BaseRepository.dataSource = DataSource.getDataSource();
 
         app.get(NamedRoutes.rootPath(), UrlController::start);
 
