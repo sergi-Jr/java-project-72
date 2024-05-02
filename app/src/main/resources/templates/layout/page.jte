@@ -24,9 +24,9 @@
 @endif
 <header class="d-flex justify-content-center py-3">
     <ul class="nav nav-pills">
-        <li class="nav-item"><a href="${NamedRoutes.rootPath()}" class="nav-link active" aria-current="page">Home</a>
+        <li class="nav-item"><a href="${NamedRoutes.rootPath()}" class="nav-link active" aria-current="page">Главная</a>
         </li>
-        <li class="nav-item"><a href="${NamedRoutes.urlsPath()}" class="nav-link">Sites</a></li>
+        <li class="nav-item"><a href="${NamedRoutes.urlsPath()}" class="nav-link">Сайты</a></li>
     </ul>
 </header>
 <div class="mx-auto p-4 py-md-5">
