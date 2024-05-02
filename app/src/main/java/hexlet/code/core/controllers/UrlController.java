@@ -29,9 +29,9 @@ import java.util.Optional;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
-public class UrlController {
+public final class UrlController {
 
-    private UrlController() {}
+    private UrlController() { }
 
     public static void start(Context context) {
         context.render("main.jte", model("page", new BuildUrlPage()));

@@ -3,7 +3,6 @@ package hexlet.code.core.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @Getter

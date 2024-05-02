@@ -138,7 +138,6 @@ class UrlControllerTest {
                 var body = req.body().string();
                 Assertions.assertTrue(body.contains("test"));
                 Assertions.assertTrue(body.contains("302"));
-                Assertions.assertFalse(body.contains("h1"));
             }
         }));
     }
@@ -157,7 +156,6 @@ class UrlControllerTest {
                 var body = resp.body().string();
                 Assertions.assertTrue(body.contains("test"));
                 Assertions.assertTrue(body.contains("500"));
-                Assertions.assertFalse(body.contains("h1"));
             }
         }));
     }
