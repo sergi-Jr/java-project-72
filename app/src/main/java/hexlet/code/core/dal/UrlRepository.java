@@ -3,7 +3,6 @@ package hexlet.code.core.dal;
 import hexlet.code.abstracts.dal.BaseRepository;
 import hexlet.code.core.models.Url;
 import lombok.extern.slf4j.Slf4j;
-import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
