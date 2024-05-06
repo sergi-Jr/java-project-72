@@ -32,10 +32,8 @@ public final class UrlRepository extends BaseRepository {
                 log.error("",
                         new SQLException("DB have not returned an id after save"));
             }
-        } catch (JdbcSQLIntegrityConstraintViolationException exception) {
+        } catch (SQLException exception) {
             return false;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
         return false;
     }

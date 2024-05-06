@@ -36,7 +36,7 @@ public class UrlCheckRepository extends BaseRepository {
                         new SQLException("DB have not returned an id after save"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            return false;
         }
         return false;
     }
