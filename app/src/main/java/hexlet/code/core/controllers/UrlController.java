@@ -127,7 +127,8 @@ public final class UrlController {
             ViewUtil.setFlashes(page, context, "Проверка не удалась", "danger");
             context.render("urls/show.jte", model("page", page));
         } catch (ValidationException e) {
-            var page = new BuildUrlPage();
+            var name = UrlRepository.find(id).get().getName();
+            var page = new UrlPage(id, name, UrlCheckRepository.getChecks(id));
             ViewUtil.setFlashes(page, context, "Проверка не удалась", "danger");
             context.render("main.jte", model("page", page));
         }
