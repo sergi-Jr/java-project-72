@@ -92,6 +92,11 @@ public final class UrlController {
     public static void check(Context context) {
         Long id = context.pathParamAsClass("id", Long.class).get();
         String url = context.formParamAsClass("url", String.class).get();
+        if (UrlRepository.find(id).isEmpty()) {
+            Url entity = new Url(url);
+            UrlRepository.save(entity);
+            id = entity.getId();
+        }
         try {
             HttpResponse<String> response = Unirest.get(url).asString();
             String body = response.getBody();
