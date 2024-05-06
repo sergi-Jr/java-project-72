@@ -15,6 +15,7 @@ import hexlet.code.core.utils.ViewUtil;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
+import io.javalin.validation.ValidationException;
 import org.javatuples.Pair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -25,6 +26,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
@@ -91,13 +93,17 @@ public final class UrlController {
 
     public static void check(Context context) {
         Long id = context.pathParamAsClass("id", Long.class).get();
-        String url = context.formParamAsClass("url", String.class).get();
-        if (UrlRepository.find(id).isEmpty()) {
-            Url entity = new Url(url);
-            UrlRepository.save(entity);
-            id = entity.getId();
-        }
+
         try {
+            String url = context.formParamAsClass("url", String.class)
+                    .check(Objects::nonNull, "")
+                    .get();
+            if (UrlRepository.find(id).isEmpty()) {
+                Url entity = new Url(url);
+                UrlRepository.save(entity);
+                id = entity.getId();
+            }
+
             HttpResponse<String> response = Unirest.get(url).asString();
             String body = response.getBody();
             Document doc = Jsoup.parse(body);
@@ -115,10 +121,15 @@ public final class UrlController {
             ViewUtil.setFlashesInContext(context, "Проверка успешно добавлена", "success");
             context.redirect(NamedRoutes.urlPath(id), HttpStatus.FOUND);
         } catch (UnirestException e) {
+            String url = context.formParamAsClass("url", String.class).get();
             List<UrlCheck> checks = UrlCheckRepository.getChecks(id);
             UrlPage page = new UrlPage(id, url, checks);
             ViewUtil.setFlashes(page, context, "Проверка не удалась", "danger");
             context.render("urls/show.jte", model("page", page));
+        } catch (ValidationException e) {
+            var page = new BuildUrlPage();
+            ViewUtil.setFlashes(page, context, "Проверка не удалась", "danger");
+            context.render("main.jte", model("page", page));
         }
     }
 }
