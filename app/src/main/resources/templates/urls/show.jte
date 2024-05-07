@@ -30,9 +30,6 @@ content = @`
         <h2 class="display-6">Проверки</h2>
         <div>
             <form action="${NamedRoutes.urlCheckPath(page.getId())}" method="post">
-                <div>
-                    <input type="text" name="url" value="${page.getName()}" hidden="hidden">
-                </div>
                 <div class="col-auto">
                     <button type="submit" class="btn btn-primary">Начать проверку</button>
                 </div>

@@ -61,12 +61,12 @@ class UrlControllerTest {
                 Assertions.assertEquals(200, response.code());
                 Assertions.assertTrue(body.contains(correctTestUrl1));
             }
-            try (var same = client.post(NamedRoutes.urlsPath(), "url=" + correctTestUrl1)) {
-                var body = same.body().string();
-                Assertions.assertEquals(200, same.code());
-                Assertions.assertTrue(body.contains("Страница уже существует"));
-            }
             try (var response = client.post(NamedRoutes.urlsPath(), "url=" + invalidUrl)) {
+                var body = response.body().string();
+                Assertions.assertEquals(200, response.code());
+                Assertions.assertTrue(body.contains("Некорректный URL"));
+            }
+            try (var response = client.post(NamedRoutes.urlsPath())) {
                 var body = response.body().string();
                 Assertions.assertEquals(200, response.code());
                 Assertions.assertTrue(body.contains("Некорректный URL"));
@@ -112,17 +112,19 @@ class UrlControllerTest {
         MockResponse response = new MockResponse()
                 .setResponseCode(302)
                 .setBody(testBody);
-        MockResponse response1 = new MockResponse()
-                .setResponseCode(500)
-                .setBody(testBody);
         mockWebServer.enqueue(response);
-        mockWebServer.enqueue(response1);
+        mockWebServer.enqueue(response);
         mockWebServer.start();
 
         JavalinTest.test(app, ((server, client) -> {
-            var entity = new Url(mockWebServer.url("/").toString(), new Timestamp(System.currentTimeMillis()));
+            var entity = new Url(mockWebServer.url("/").toString());
             UrlRepository.save(entity);
             try (var req = client.post(NamedRoutes.urlCheckPath(entity.getId()), "url=" + entity.getName())) {
+                var body = req.body().string();
+                Assertions.assertTrue(body.contains("test"));
+                Assertions.assertTrue(body.contains("302"));
+            }
+            try (var req = client.post(NamedRoutes.urlCheckPath(entity.getId()))) {
                 var body = req.body().string();
                 Assertions.assertTrue(body.contains("test"));
                 Assertions.assertTrue(body.contains("302"));

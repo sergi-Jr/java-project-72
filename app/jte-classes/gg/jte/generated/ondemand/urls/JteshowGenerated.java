@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 public final class JteshowGenerated {
 	public static final String JTE_NAME = "urls/show.jte";
-	public static final int[] JTE_LINE_INFO = {0,0,1,2,3,5,5,5,8,8,11,11,13,13,13,23,23,23,24,24,24,32,32,32,32,32,32,32,32,32,34,34,34,34,34,34,34,34,34,53,53,55,55,55,56,56,56,57,57,57,58,58,58,59,59,59,60,60,60,62,62,66,66,66,66,66,5,6,6,6,6};
+	public static final int[] JTE_LINE_INFO = {0,0,1,2,3,5,5,5,8,8,11,11,13,13,13,23,23,23,24,24,24,32,32,32,32,32,32,32,32,32,50,50,52,52,52,53,53,53,54,54,54,55,55,55,56,56,56,57,57,57,59,59,63,63,63,63,63,5,6,6,6,6};
 	public static void render(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, UrlPage page, DateTimeFormatter formatter) {
 		jteOutput.writeContent("\n");
 		gg.jte.generated.ondemand.layout.JtepageGenerated.render(jteOutput, jteHtmlInterceptor, new gg.jte.html.HtmlContent() {
@@ -28,16 +28,7 @@ public final class JteshowGenerated {
 					jteOutput.setContext("form", null);
 					jteOutput.writeContent("\"");
 				}
-				jteOutput.writeContent(" method=\"post\">\n                <div>\n                    <input type=\"text\" name=\"url\"");
-				var __jte_html_attribute_1 = page.getName();
-				if (gg.jte.runtime.TemplateUtils.isAttributeRendered(__jte_html_attribute_1)) {
-					jteOutput.writeContent(" value=\"");
-					jteOutput.setContext("input", "value");
-					jteOutput.writeUserContent(__jte_html_attribute_1);
-					jteOutput.setContext("input", null);
-					jteOutput.writeContent("\"");
-				}
-				jteOutput.writeContent(" hidden=\"hidden\">\n                </div>\n                <div class=\"col-auto\">\n                    <button type=\"submit\" class=\"btn btn-primary\">Начать проверку</button>\n                </div>\n            </form>\n        </div>\n        <table class=\"table table-striped\">\n            <thead>\n            <tr>\n                <th scope=\"col\">ID</th>\n                <th scope=\"col\">Код ответа</th>\n                <th scope=\"col\">Title</th>\n                <th scope=\"col\">H1</th>\n                <th scope=\"col\">Description</th>\n                <th scope=\"col\">Дата проверки</th>\n            </tr>\n            </thead>\n            <tbody>\n            ");
+				jteOutput.writeContent(" method=\"post\">\n                <div class=\"col-auto\">\n                    <button type=\"submit\" class=\"btn btn-primary\">Начать проверку</button>\n                </div>\n            </form>\n        </div>\n        <table class=\"table table-striped\">\n            <thead>\n            <tr>\n                <th scope=\"col\">ID</th>\n                <th scope=\"col\">Код ответа</th>\n                <th scope=\"col\">Title</th>\n                <th scope=\"col\">H1</th>\n                <th scope=\"col\">Description</th>\n                <th scope=\"col\">Дата проверки</th>\n            </tr>\n            </thead>\n            <tbody>\n            ");
 				for (var check : page.getChecks()) {
 					jteOutput.writeContent("\n                <tr>\n                    <th scope=\"col\">");
 					jteOutput.setContext("th", null);

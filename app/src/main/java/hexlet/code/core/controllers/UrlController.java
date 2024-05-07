@@ -28,12 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 public final class UrlController {
 
-    private UrlController() { }
+    private UrlController() {
+    }
 
     public static void start(Context context) {
         context.render("main.jte", model("page", new BuildUrlPage()));
@@ -41,7 +43,9 @@ public final class UrlController {
 
     public static void create(Context context) {
         try {
-            String name = context.formParamAsClass("url", String.class).get();
+            String name = context.formParamAsClass("url", String.class)
+                    .check(Objects::nonNull, "Некорректный URL")
+                    .get();
             URL url = URI.create(name).toURL();
             String urlString = buildUrlString(url);
             Url entity = new Url(urlString);
@@ -50,11 +54,10 @@ public final class UrlController {
                 ViewUtil.setFlashesInContext(context, "Страница успешно добавлена", "success");
                 context.redirect(NamedRoutes.urlsPath(), HttpStatus.FOUND);
             } else {
-                BuildUrlPage page = new BuildUrlPage(name);
-                ViewUtil.setFlashes(page, context, "Страница уже существует", "danger");
-                context.render("main.jte", model("page", page));
+                ViewUtil.setFlashesInContext(context, "Страница уже существует", "danger");
+                context.redirect(NamedRoutes.urlsPath(), HttpStatus.FOUND);
             }
-        } catch (MalformedURLException | IllegalArgumentException exception) {
+        } catch (MalformedURLException | IllegalArgumentException | ValidationException exception) {
             String name = context.formParam("url");
             BuildUrlPage page = new BuildUrlPage(name);
             ViewUtil.setFlashes(page, context, "Некорректный URL", "danger");
@@ -93,16 +96,15 @@ public final class UrlController {
 
     public static void check(Context context) {
         Long id = context.pathParamAsClass("id", Long.class).get();
-
+        AtomicReference<String> atomicUrl = new AtomicReference<>();
         try {
-            String url = context.formParamAsClass("url", String.class)
-                    .check(Objects::nonNull, "")
-                    .get();
-            if (UrlRepository.find(id).isEmpty()) {
-                Url entity = new Url(url);
-                UrlRepository.save(entity);
-                id = entity.getId();
-            }
+            UrlRepository.find(id).ifPresentOrElse(
+                    entity -> atomicUrl.set(entity.getName()),
+                    () -> {
+                        throw new NotFoundResponse("Could not find URL :(");
+                    }
+            );
+            String url = atomicUrl.get();
 
             HttpResponse<String> response = Unirest.get(url).asString();
             String body = response.getBody();
@@ -121,16 +123,8 @@ public final class UrlController {
             ViewUtil.setFlashesInContext(context, "Проверка успешно добавлена", "success");
             context.redirect(NamedRoutes.urlPath(id), HttpStatus.FOUND);
         } catch (UnirestException e) {
-            String url = context.formParamAsClass("url", String.class).get();
-            List<UrlCheck> checks = UrlCheckRepository.getChecks(id);
-            UrlPage page = new UrlPage(id, url, checks);
-            ViewUtil.setFlashes(page, context, "Проверка не удалась", "danger");
-            context.render("urls/show.jte", model("page", page));
-        } catch (ValidationException e) {
-            var name = UrlRepository.find(id).get().getName();
-            var page = new UrlPage(id, name, UrlCheckRepository.getChecks(id));
-            ViewUtil.setFlashes(page, context, "Проверка не удалась", "danger");
-            context.render("urls/show.jte", model("page", page));
+            ViewUtil.setFlashesInContext(context, "Проверка не удалась", "danger");
+            context.redirect(NamedRoutes.urlPath(id), HttpStatus.FOUND);
         }
     }
 }
