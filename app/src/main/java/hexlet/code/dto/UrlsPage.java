@@ -5,12 +5,13 @@ import hexlet.code.core.models.Url;
 import hexlet.code.core.models.UrlCheck;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.javatuples.Pair;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @AllArgsConstructor
 public class UrlsPage extends BasePage {
-    private List<Pair<Url, UrlCheck>> urlTuples;
+    private List<Url> urls;
+    private Map<Long, UrlCheck> latestChecks;
 }

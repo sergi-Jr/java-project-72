@@ -9,15 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 public class UrlCheckRepository extends BaseRepository {
     public static boolean save(UrlCheck entity) {
         String query = "Insert into url_checks "
-                + "(title, url_id, status_code, h1, description, created_at) values (?, ?, ?, ?, ?, ?)";
+                + "(title, url_id, status_code, h1, description) values (?, ?, ?, ?, ?)";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement prep = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             prep.setString(1, entity.getTitle());
@@ -25,7 +23,6 @@ public class UrlCheckRepository extends BaseRepository {
             prep.setInt(3, entity.getStatusCode());
             prep.setString(4, entity.getH1());
             prep.setString(5, entity.getDescription());
-            prep.setTimestamp(6, entity.getCreatedAt());
             prep.executeUpdate();
             ResultSet keys = prep.getGeneratedKeys();
             if (keys.next()) {
@@ -65,13 +62,13 @@ public class UrlCheckRepository extends BaseRepository {
         }
     }
 
-    public static Optional<UrlCheck> findLast(Long urlId) {
-        String query = "Select * from url_checks where url_id = ? order by created_at limit 1";
+    public static Map<Long, UrlCheck> findLasts() {
+        String query = "Select distinct on (url_id) * from url_checks order by url_id desc, id desc";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement prep = conn.prepareStatement(query)) {
-            prep.setLong(1, urlId);
+            Map<Long, UrlCheck> resultMap = new LinkedHashMap<>();
             ResultSet resultSet = prep.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 UrlCheck check = new UrlCheck(
                         resultSet.getInt("status_code"),
                         resultSet.getString("title"),
@@ -81,9 +78,9 @@ public class UrlCheckRepository extends BaseRepository {
                 );
                 check.setId(resultSet.getLong("id"));
                 check.setUrlId(resultSet.getLong("url_id"));
-                return Optional.of(check);
+                resultMap.put(check.getUrlId(), check);
             }
-            return Optional.empty();
+            return resultMap;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -17,11 +17,10 @@ import java.util.Optional;
 public final class UrlRepository extends BaseRepository {
 
     public static boolean save(Url entity) {
-        String query = "Insert into urls (name, created_at) values (?, ?)";
+        String query = "Insert into urls (name) values (?)";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement prep = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             prep.setString(1, entity.getName());
-            prep.setTimestamp(2, entity.getCreatedAt());
             prep.executeUpdate();
             ResultSet keys = prep.getGeneratedKeys();
             if (keys.next()) {
@@ -58,7 +57,7 @@ public final class UrlRepository extends BaseRepository {
     }
 
     public static List<Url> getEntities() {
-        String query = "Select * from urls";
+        String query = "Select * from urls order by id desc";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement prep = conn.prepareStatement(query)) {
             ResultSet resultSet = prep.executeQuery();

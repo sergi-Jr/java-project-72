@@ -2,7 +2,6 @@ package hexlet.code.core.controllers;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import hexlet.code.core.dal.UrlCheckRepository;
 import hexlet.code.core.dal.UrlRepository;
 import hexlet.code.core.dto.BuildUrlPage;
@@ -16,7 +15,6 @@ import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.validation.ValidationException;
-import org.javatuples.Pair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,10 +22,7 @@ import org.jsoup.nodes.Element;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
@@ -72,14 +67,9 @@ public final class UrlController {
     }
 
     public static void index(Context context) {
-        List<Pair<Url, UrlCheck>> urlTuples = new ArrayList<>();
         List<Url> urls = UrlRepository.getEntities();
-        urls.forEach(u -> {
-            Optional<UrlCheck> check = UrlCheckRepository.findLast(u.getId());
-            check.ifPresentOrElse(c -> urlTuples.add(new Pair<>(u, c)),
-                    () -> urlTuples.add(new Pair<>(u, null)));
-        });
-        UrlsPage page = new UrlsPage(urlTuples);
+        Map<Long, UrlCheck> urlChecks = UrlCheckRepository.findLasts();
+        UrlsPage page = new UrlsPage(urls, urlChecks);
         ViewUtil.setFlashesInPage(context, page);
         context.render("urls/index.jte", model("page", page));
     }
@@ -122,7 +112,7 @@ public final class UrlController {
             UrlCheckRepository.save(check);
             ViewUtil.setFlashesInContext(context, "Проверка успешно добавлена", "success");
             context.redirect(NamedRoutes.urlPath(id), HttpStatus.FOUND);
-        } catch (UnirestException e) {
+        } catch (Exception e) {
             ViewUtil.setFlashesInContext(context, "Проверка не удалась", "danger");
             context.redirect(NamedRoutes.urlPath(id), HttpStatus.FOUND);
         }
