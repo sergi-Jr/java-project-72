@@ -15,7 +15,6 @@ public final class Url {
 
     public Url(String nameValue) {
         name = nameValue;
-        createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     public Url(String nameValue, Timestamp created) {

@@ -23,7 +23,6 @@ public class UrlCheck {
         this.title = title;
         this.h1 = h1;
         this.description = description;
-        createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     public UrlCheck(int statusCode, String title, String h1, String description, Timestamp created) {
