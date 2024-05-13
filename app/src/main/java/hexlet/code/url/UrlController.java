@@ -92,10 +92,8 @@ public final class UrlController {
                     entity -> atomicUrl.set(entity.getName()),
                     () -> {
                         throw new NotFoundResponse("Could not find URL :(");
-                    }
-            );
+                    });
             String url = atomicUrl.get();
-
             HttpResponse<String> response = Unirest.get(url).asString();
             String body = response.getBody();
             Document doc = Jsoup.parse(body);

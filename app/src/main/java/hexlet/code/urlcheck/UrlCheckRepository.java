@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Optional;
 public class UrlCheckRepository extends BaseRepository {
     public static boolean save(UrlCheck entity) {
         String query = "Insert into url_checks "
-                + "(title, url_id, status_code, h1, description) values (?, ?, ?, ?, ?)";
+                + "(title, url_id, status_code, h1, description, created_at) values (?, ?, ?, ?, ?, ?)";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement prep = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             prep.setString(1, entity.getTitle());
@@ -26,6 +27,7 @@ public class UrlCheckRepository extends BaseRepository {
             prep.setInt(3, entity.getStatusCode());
             prep.setString(4, entity.getH1());
             prep.setString(5, entity.getDescription());
+            prep.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
             prep.executeUpdate();
             ResultSet keys = prep.getGeneratedKeys();
             if (keys.next()) {

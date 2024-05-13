@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,10 +17,11 @@ import java.util.Optional;
 public final class UrlRepository extends BaseRepository {
 
     public static boolean save(Url entity) {
-        String query = "Insert into urls (name) values (?)";
+        String query = "Insert into urls (name, created_at) values (?, ?)";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement prep = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             prep.setString(1, entity.getName());
+            prep.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
             prep.executeUpdate();
             ResultSet keys = prep.getGeneratedKeys();
             if (keys.next()) {
