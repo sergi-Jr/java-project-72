@@ -1,8 +1,7 @@
-package hexlet.code.core.dto;
+package hexlet.code.dto;
 
-import hexlet.code.abstracts.dto.BasePage;
-import hexlet.code.core.models.Url;
-import hexlet.code.core.models.UrlCheck;
+import hexlet.code.url.Url;
+import hexlet.code.urlcheck.UrlCheck;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
