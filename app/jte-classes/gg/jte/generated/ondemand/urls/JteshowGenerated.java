@@ -1,6 +1,6 @@
 package gg.jte.generated.ondemand.urls;
-import hexlet.code.core.dto.UrlPage;
-import hexlet.code.core.utils.NamedRoutes;
+import hexlet.code.dto.UrlPage;
+import hexlet.code.utils.NamedRoutes;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 public final class JteshowGenerated {

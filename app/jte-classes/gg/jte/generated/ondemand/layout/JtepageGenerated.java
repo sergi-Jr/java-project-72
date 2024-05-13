@@ -1,7 +1,7 @@
 package gg.jte.generated.ondemand.layout;
 import gg.jte.Content;
-import hexlet.code.core.utils.NamedRoutes;
-import hexlet.code.abstracts.dto.BasePage;
+import hexlet.code.utils.NamedRoutes;
+import hexlet.code.dto.BasePage;
 public final class JtepageGenerated {
 	public static final String JTE_NAME = "layout/page.jte";
 	public static final int[] JTE_LINE_INFO = {0,0,1,2,4,4,4,18,18,18,19,19,19,19,20,20,20,23,23,26,26,26,26,26,26,26,26,26,28,28,28,28,28,28,28,28,28,32,32,32,60,60,60,4,5,5,5,5};
