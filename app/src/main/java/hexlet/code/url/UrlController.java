@@ -1,16 +1,14 @@
-package hexlet.code.core.controllers;
+package hexlet.code.url;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
-import hexlet.code.core.dal.UrlCheckRepository;
-import hexlet.code.core.dal.UrlRepository;
-import hexlet.code.core.dto.BuildUrlPage;
-import hexlet.code.core.dto.UrlPage;
-import hexlet.code.core.dto.UrlsPage;
-import hexlet.code.core.models.Url;
-import hexlet.code.core.models.UrlCheck;
-import hexlet.code.core.utils.NamedRoutes;
-import hexlet.code.core.utils.ViewUtil;
+import hexlet.code.urlcheck.UrlCheckRepository;
+import hexlet.code.dto.BuildUrlPage;
+import hexlet.code.dto.UrlPage;
+import hexlet.code.dto.UrlsPage;
+import hexlet.code.urlcheck.UrlCheck;
+import hexlet.code.utils.NamedRoutes;
+import hexlet.code.utils.ViewUtil;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
@@ -22,7 +20,9 @@ import org.jsoup.nodes.Element;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
