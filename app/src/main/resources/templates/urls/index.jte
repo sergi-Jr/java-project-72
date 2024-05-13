@@ -1,6 +1,7 @@
-@import hexlet.code.core.dto.UrlsPage
-@import hexlet.code.core.utils.NamedRoutes
+@import hexlet.code.dto.UrlsPage
+@import hexlet.code.utils.NamedRoutes
 @import java.time.format.DateTimeFormatter
+
 
 @param UrlsPage page
 @param DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
@@ -18,12 +19,19 @@ content = @`
         </tr>
         </thead>
         <tbody>
-        @for(var p : page.getUrlTuples())
+        @for(var p : page.getUrls())
             <tr>
-                <td>${p.getValue0().getId()}</td>
-                <td><a href="${NamedRoutes.urlPath(p.getValue0().getId())}"> ${p.getValue0().getName()}</a></td>
-                <td>@if (p.getValue1() != null)${formatter.format(p.getValue1().getCreatedAt().toLocalDateTime())}@endif</td>
-                <td>@if (p.getValue1() != null)${p.getValue1().getStatusCode()}@endif</td>
+                <td>${p.getId()}</td>
+                <td><a href="${NamedRoutes.urlPath(p.getId())}">${p.getName()}</a></td>
+                @if (page.getLatestChecks().get(p.getId()) != null)
+                    <td>
+                        ${formatter.format(page.getLatestChecks().get(p.getId()).getCreatedAt().toLocalDateTime())}
+                    </td>
+                    <td>${page.getLatestChecks().get(p.getId()).getStatusCode()}</td>
+                @else
+                    <td></td>
+                    <td></td>
+                @endif
             </tr>
         @endfor
         </tbody>
