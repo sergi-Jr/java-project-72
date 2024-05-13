@@ -76,7 +76,7 @@ public final class UrlController {
 
     public static void show(Context context) {
         Long id = context.pathParamAsClass("id", Long.class).get();
-        Url url = UrlRepository.find(id).orElseThrow(() ->
+        Url url = UrlRepository.findById(id).orElseThrow(() ->
                 new NotFoundResponse("Could not find URL :("));
         List<UrlCheck> checks = UrlCheckRepository.getChecks(id);
         UrlPage page = new UrlPage(id, url.getName(), checks);
@@ -88,7 +88,7 @@ public final class UrlController {
         Long id = context.pathParamAsClass("id", Long.class).get();
         AtomicReference<String> atomicUrl = new AtomicReference<>();
         try {
-            UrlRepository.find(id).ifPresentOrElse(
+            UrlRepository.findById(id).ifPresentOrElse(
                     entity -> atomicUrl.set(entity.getName()),
                     () -> {
                         throw new NotFoundResponse("Could not find URL :(");

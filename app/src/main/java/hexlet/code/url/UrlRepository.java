@@ -35,7 +35,7 @@ public final class UrlRepository extends BaseRepository {
         return false;
     }
 
-    public static Optional<Url> find(Long id) {
+    public static Optional<Url> findById(Long id) {
         String query = "Select * from urls where id = ?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement prep = conn.prepareStatement(query)) {
