@@ -55,6 +55,26 @@ public final class UrlRepository extends BaseRepository {
         }
     }
 
+    public static Optional<Url> findByName(String name) {
+        String query = "Select * from urls where name = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement prep = conn.prepareStatement(query)) {
+            prep.setString(1, name.toLowerCase().trim());
+            ResultSet resultSet = prep.executeQuery();
+            if (resultSet.next()) {
+                Url entity = new Url(
+                        resultSet.getString("name"),
+                        resultSet.getTimestamp("created_at")
+                );
+                entity.setId(resultSet.getLong("id"));
+                return Optional.of(entity);
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static List<Url> getEntities() {
         String query = "Select * from urls order by id desc";
         try (Connection conn = dataSource.getConnection();
