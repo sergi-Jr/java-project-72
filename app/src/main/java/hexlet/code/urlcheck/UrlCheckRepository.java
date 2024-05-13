@@ -1,7 +1,6 @@
-package hexlet.code.core.dal;
+package hexlet.code.urlcheck;
 
-import hexlet.code.abstracts.dal.BaseRepository;
-import hexlet.code.core.models.UrlCheck;
+import hexlet.code.dal.BaseRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
@@ -9,7 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 public class UrlCheckRepository extends BaseRepository {
