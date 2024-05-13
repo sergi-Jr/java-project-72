@@ -1,4 +1,4 @@
-package hexlet.code.core.dal;
+package hexlet.code.dal;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

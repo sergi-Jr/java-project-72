@@ -1,6 +1,6 @@
-package hexlet.code.core.utils;
+package hexlet.code.utils;
 
-import hexlet.code.abstracts.dto.BasePage;
+import hexlet.code.dto.BasePage;
 import io.javalin.http.Context;
 
 public class ViewUtil {

@@ -1,6 +1,5 @@
-package hexlet.code.core.dto;
+package hexlet.code.dto;
 
-import hexlet.code.abstracts.dto.BasePage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

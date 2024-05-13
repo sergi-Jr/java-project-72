@@ -1,5 +1,5 @@
-@import hexlet.code.core.utils.NamedRoutes
-@import hexlet.code.core.dto.BuildUrlPage
+@import hexlet.code.utils.NamedRoutes
+@import hexlet.code.dto.BuildUrlPage
 
 @param BuildUrlPage page
 

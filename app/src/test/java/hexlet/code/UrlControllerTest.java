@@ -1,8 +1,8 @@
 package hexlet.code;
 
-import hexlet.code.core.dal.UrlRepository;
-import hexlet.code.core.models.Url;
-import hexlet.code.core.utils.NamedRoutes;
+import hexlet.code.url.UrlRepository;
+import hexlet.code.url.Url;
+import hexlet.code.utils.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
 import okhttp3.mockwebserver.MockResponse;

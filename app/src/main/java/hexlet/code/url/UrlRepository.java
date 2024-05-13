@@ -1,7 +1,6 @@
-package hexlet.code.core.dal;
+package hexlet.code.url;
 
-import hexlet.code.abstracts.dal.BaseRepository;
-import hexlet.code.core.models.Url;
+import hexlet.code.dal.BaseRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
