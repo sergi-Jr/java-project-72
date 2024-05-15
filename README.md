@@ -14,7 +14,7 @@ The project is a web service built on Javalin, the main function of which is to 
 
 If the service is not available from the link below, you can download the source code on your machine and run it by following the instructions below. By default, the service is locally available at http://localhost:7070
 
-Download [zip](https://github.com/sergi-Jr/java-project-72/archive/refs/heads/main.zip). Then unzip into prefered folder.  
+Download [zip](https://github.com/sergi-Jr/page-analyzer/archive/refs/heads/main.zip). Then unzip into prefered folder.  
 Download [Java](https://www.java.com/ru/download/manual.jsp) for your OS.
 
 Run terminal on your machine, change dir to folder where unzipped Make file is situated and type:
